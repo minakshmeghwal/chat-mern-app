@@ -26,17 +26,17 @@ const chatModel=mongoose.Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"
         } ,
-        // messageCountUnseen:[{
-        //     number: {
-        //     type: Number,
-        //     default:0
-        //             },
-        //     id: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "User",
+        messageCountUnseen:[{
+            number: {
+            type: Number,
+            default:0
+                    },
+            id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
             
-        //         }
-        // }]
+   }
+        }]
 },
 {   //whenever we added chat it would add the time of that
     timestamps:true

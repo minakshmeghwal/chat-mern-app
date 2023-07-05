@@ -13,10 +13,6 @@ const messageModel=mongoose.Schema({
     chat:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Chat"
-    },
-    messageCountUnseen:{
-        type:Number,
-        default:0
     }
 
 },

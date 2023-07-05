@@ -14,6 +14,7 @@ export default function ChatPage({history}) {
       const [fetchAgain,setFetchAgain]=useState(false)
    
   return (
+    <>
     <div style={{width:"100%"}}>
         
          {user && <SideDrawer history={history}/>}
@@ -25,11 +26,12 @@ export default function ChatPage({history}) {
         p="10px"
         h="91.5vh"
       >
-        {user && <MyChats fetchAgain={fetchAgain}/>}
-        {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>}
+        {user && <MyChats fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+        {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
       </Box>
 
     </div>
+    </>
     
   )
 }

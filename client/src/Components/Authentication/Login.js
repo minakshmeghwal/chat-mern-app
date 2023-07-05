@@ -57,14 +57,13 @@ const Login = ({history}) => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
-      const userInfo=await JSON.parse(localStorage.getItem("userInfo"))
+      
       setLoading(false);
 
       //to push on the chat page
-      if(!userInfo)
-      {
+      
         history.push("/chats");
-      }
+     
         
       } catch (error) {
 

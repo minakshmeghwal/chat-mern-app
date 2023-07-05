@@ -53,16 +53,16 @@ const accessChat=asyncHandler(async(req,res)=>{
       chatName: "sender",
       isGroupChat: false,
       users: [req.user._id, userId],
-      // messageCountUnseen:[
-      //   {
-      //   number:0 , 
-      //   id: req.user._id
-      // },
-      //   {
-      //     number:0,
-      //     id: userId
-      //   }
-      // ]
+      messageCountUnseen:[
+        {
+        number:0 , 
+        id: req.user._id
+      },
+        {
+          number:0,
+          id: userId
+        }
+      ]
     };
     try {
         //it created a chat with above data is given with both ids
@@ -135,14 +135,17 @@ const createGroupChat = asyncHandler(async (req, res) => {
   //becos that would also part of that group
   var arr;
   users.push(req.user);
-  // users.map((user)=>{
-  //   const newItem = {
-  //     number: 3,
-  //     id: user
-  //   };
-  //     arr.push(newItem);
+  if(!users)
+  {
+  users.map((user)=>{
+    const newItem = {
+      number: 0,
+      id: user
+    };
+      arr.push(newItem);
     
-  // })
+  })
+}
 
   try { 
     //create a group chat and it would return the group details
@@ -152,7 +155,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
       isGroupChat: true,
       //groupadmin would be current user which is logged in
       groupAdmin: req.user,
-      // messageCountUnseen:arr
+      messageCountUnseen:arr
       
       
     });
@@ -254,4 +257,46 @@ const addToGroup = asyncHandler(async (req, res) => {
   }
 });
 
-export default {accessChat,fetchChats,createGroupChat,renameGroup,addToGroup,removeFromGroup}
+const notify = asyncHandler(async (req, res) => {
+let chatId = req.body.chatId;
+
+  if (typeof chatId === 'string') {
+    chatId = chatId.trim();
+  }
+  chatId = new mongoose.Types.ObjectId(chatId);
+
+  if (!chatId) {
+    return res.sendStatus(400);
+  }
+
+  console.log("hey");
+
+  const userId = req.user._id;
+  console.log("fhd", chatId);
+  console.log("shdkd", userId);
+
+
+  const chat = await Chat.findOneAndUpdate(
+  { _id: chatId, 'messageCountUnseen.id': userId },
+  { $set: { 'messageCountUnseen.$.number': 0 } },
+  { new: true } // Set the "new" option to true to return the updated document
+);
+
+if (!chat) {
+  // If no chat is found, handle the case accordingly
+  return res.status(404).json({ error: 'Chat not found' });
+}
+
+console.log(chat);
+return res.json(chat);
+
+
+
+
+  
+});
+
+
+
+
+export default {accessChat,fetchChats,createGroupChat,renameGroup,addToGroup,removeFromGroup,notify}

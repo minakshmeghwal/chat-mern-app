@@ -14,6 +14,7 @@ import { FormControl } from '@chakra-ui/react';
 import { Input } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import io from 'socket.io-client'
+
 // import fetchChats from './Missenalious/MyChats.js'
 // import Lottie from 'react-lottie'
 // import animationData from '../animations/typing.json'
@@ -78,6 +79,7 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
 
         //whatever we are getting we gonna append it to the array of all of the messages
         setMessages([...messages, data]);
+        //console.log("chats is",data)
         
 
       } catch (error) {
@@ -91,6 +93,8 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
         });
       }
     }
+
+    //this is basically a fxn whenever fetchAgain changes the useEffect present in MyChats get called and render all chats
      setFetchAgain(!fetchAgain);
 
      //fetchChats();
@@ -178,17 +182,22 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) 
       { //if notification array dont contain the new message than add it to array
-        if (!notification.includes(newMessageRecieved)) {
-          //add this msg to front of our notiication
-          setNotification([newMessageRecieved, ...notification]);
-          setFetchAgain(!fetchAgain);
-        }
+        // if (!notification.includes(newMessageRecieved)) {
+        //   //add this msg to front of our notiication
+        //   setNotification([newMessageRecieved, ...notification]);  
+        // }
+        setFetchAgain(!fetchAgain);
       
     }
        else {
+ 
 
+        setSelectedChat(selectedChat)
         //otherwise set that msg on setMessages
         setMessages([...messages, newMessageRecieved]);
+        
+        
+        //setFetchAgain(!fetchAgain);
       }
     });
     

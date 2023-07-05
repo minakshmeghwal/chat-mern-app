@@ -13,6 +13,7 @@ router.post('/group',pro.protect, chat.createGroupChat);
 router.put('/rename',pro.protect, chat.renameGroup);
 router.put('/groupremove',pro.protect, chat.removeFromGroup);
 router.put('/groupadd',pro.protect, chat.addToGroup);
+router.put('/notify',pro.protect,chat.notify)
 
 
 export default router
