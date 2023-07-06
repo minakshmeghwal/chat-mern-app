@@ -12,6 +12,7 @@ export default function ChatPage({history}) {
     //as we added ChatState we can access that state directly
       const {user}=ChatState()
       const [fetchAgain,setFetchAgain]=useState(false)
+      const [change,setChange]=useState(false);
    
   return (
     <>
@@ -26,8 +27,8 @@ export default function ChatPage({history}) {
         p="10px"
         h="91.5vh"
       >
-        {user && <MyChats fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
-        {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+        {user && <MyChats fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} change={change} setChange={setChange}/>}
+        {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} change={change} setChange={setChange} />}
       </Box>
 
     </div>

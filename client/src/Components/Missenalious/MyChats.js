@@ -9,7 +9,7 @@ import ChatLoading from '../ChatLoading.js';
 import { getSender } from '../../config/ChatLogics.js';
 import GroupChatModel from './GroupChatModel.js';
 
-const MyChats = ({ fetchAgain,setFetchAgain }) => {
+const MyChats = ({ fetchAgain,setFetchAgain ,change,setChange}) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const toast = useToast();
@@ -102,7 +102,7 @@ const getCount = (chat) => {
     //console.log("called")
     notify()
 
-  },[selectedChat]);
+  },[change]);
 
   useEffect(() => {
 
@@ -166,6 +166,7 @@ const getCount = (chat) => {
                     onClick={() => {
                       console.log('Chat item clicked'); // Add this line
                       setSelectedChat(chat);
+                       setChange(!change)
                       
                 }}
 

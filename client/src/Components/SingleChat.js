@@ -35,7 +35,7 @@ var socket, selectedChatCompare;
 //   };
 
 
-const SingleChat = ({fetchAgain,setFetchAgain}) => {
+const SingleChat = ({fetchAgain,setFetchAgain,change,setChange}) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -95,6 +95,8 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
     }
 
     //this is basically a fxn whenever fetchAgain changes the useEffect present in MyChats get called and render all chats
+      
+
      setFetchAgain(!fetchAgain);
 
      //fetchChats();
@@ -136,7 +138,68 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
       });
     }
   };
-  
+  const getCount = (chat) => {
+    var count = 0;
+    //console.log("chat is",chat)
+    if(chat && chat.messageCountUnseen)
+    {
+    chat.messageCountUnseen.forEach((obj) => {
+      if(obj.id===user.data._id)
+      {
+          count += obj.number;
+          return count;
+      }
+
+    });
+  } 
+  // console.log(count)
+    return count;
+  };
+
+  const notify=async ()=>{
+
+
+    if(getCount(selectedChat))
+    {
+      console.log("hey")
+      try{
+        const config = {
+          headers: {
+            // we are sending a json data
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.data.token}`,
+          },
+        };
+
+      const  chat = await axios.put("http://localhost:5000/chat/notify",{
+
+      chatId: selectedChat._id
+        
+      }, config);
+
+      //console.log("hey am here",chat.data)
+
+      console.log("data",chat.data)
+
+      setSelectedChat(chat.data);
+      
+
+
+    } catch (error) {
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to load the chats",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }  
+    }
+    
+    setFetchAgain(!fetchAgain)
+  }
+
    //start our socket here
    useEffect(() => {
 
@@ -187,12 +250,13 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
         //   setNotification([newMessageRecieved, ...notification]);  
         // }
         setFetchAgain(!fetchAgain);
+        
       
     }
        else {
  
 
-        setSelectedChat(selectedChat)
+        notify();
         //otherwise set that msg on setMessages
         setMessages([...messages, newMessageRecieved]);
         

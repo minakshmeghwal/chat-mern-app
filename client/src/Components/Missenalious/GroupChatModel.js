@@ -20,7 +20,7 @@ const GroupChatModel = ({children}) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { user, chats, setChats } = ChatState();
+  const { user, chats, setChats ,selectedChat,setSelectedChat} = ChatState();
 
 
   const handleSearch=async(query)=>{
@@ -87,6 +87,7 @@ const GroupChatModel = ({children}) => {
       
       //we want to add chats into the top of the chats
       setChats([data, ...chats]);
+      setSelectedChat(data)
       onClose();
       toast({
         title: "New Group Chat Created!",
